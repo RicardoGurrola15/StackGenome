@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-Actualizado: 2026-07-30
+Actualizado: 2026-07-31
 
 ## Producto
 
@@ -13,7 +13,7 @@ Actualizado: 2026-07-30
 
 ## Estado Global
 
-`COMPLETED`
+`WEB_READY`
 
 ## Fases Completadas
 
@@ -24,14 +24,15 @@ Actualizado: 2026-07-30
 - **Fase 15**: Alpha (Binarios, Licencia MIT, Comunidad, Limitaciones).
 - **Fase 16**: Auditoría independiente (Completada, estado ALPHA_AUDIT_CONDITIONAL superado).
 - **Fase 17**: CI/CD Automático (Completada).
+- **Fase 18A**: Web Readiness Gate (Completada — resultado: `WEB_READY`).
 
 ## Fase Activa
 
-**Fase 17 completada**
+**Fase 18A completada**
 
 ## Pendiente Inmediato
 
-La siguiente prioridad del proyecto (Fase 18) es iniciar el desarrollo de la **Web UI (Dashboard)** para explorar de forma visual el grafo generado por el CLI.
+Pendiente autorización para iniciar **Fase 18B — Web Alpha** (Frontend / Dashboard).
 
 ## Riesgos actuales
 

@@ -2,11 +2,11 @@
 
 ## Fase autorizada
 
-**Fase 17 — Automatización CI/CD** (COMPLETADA)
+**Fase 18A — Web Readiness Gate** (COMPLETADA)
 
 ## Estado
 
-`COMPLETED`
+`WEB_READY`
 
 ## Objetivo
 

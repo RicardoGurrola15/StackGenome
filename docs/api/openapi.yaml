@@ -1,0 +1,215 @@
+openapi: 3.0.3
+info:
+  title: StackGenome API
+  version: 1.0.0
+  description: |
+    API Contract for StackGenome. Includes definitions for Fingerprints, Recommendations, and Catalog entities.
+    This contract serves as the Single Source of Truth for Go CLI, TypeScript Backend, and the future Web UI.
+
+servers:
+  - url: https://stackgenome-api-staging.stackgenome.workers.dev
+    description: Staging Environment
+
+paths:
+  /api/v1/recommendations:
+    post:
+      summary: Obtener recomendaciones de herramientas basadas en el Fingerprint del proyecto.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecommendationResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    ProjectGraphDTO:
+      type: object
+      description: |
+        Full project graph exported by the CLI locally.
+        The web frontend can load this JSON file to visualize the graph.
+      required:
+        - schema_version
+        - nodes
+        - edges
+      properties:
+        schema_version:
+          type: string
+          example: "1.0.0"
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeDTO'
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/EdgeDTO'
+        environment:
+          type: object
+          description: Optional environment details
+        recommendations:
+          type: array
+          description: Optional locally generated recommendations
+          items:
+            $ref: '#/components/schemas/RecommendationResult'
+
+    FingerprintV1:
+      type: object
+      description: A sanitized subset of ProjectGraph sent to the remote API.
+      required:
+        - nodes
+        - edges
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeDTO'
+          description: Evidences must be omitted or sanitized before sending.
+        edges:
+          type: array
+          items:
+            $ref: '#/components/schemas/EdgeDTO'
+
+    RecommendationRequest:
+      type: object
+      required:
+        - schema_version
+        - fingerprint
+      properties:
+        schema_version:
+          type: string
+          example: "1.0.0"
+        fingerprint:
+          $ref: '#/components/schemas/FingerprintV1'
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 20
+          default: 3
+
+    RecommendationResponse:
+      type: object
+      required:
+        - catalog_snapshot_id
+        - ranking_version
+        - recommendations
+        - generated_at
+      properties:
+        catalog_snapshot_id:
+          type: string
+          description: Identifier for the version of the catalog used.
+        ranking_version:
+          type: string
+          description: Identifier for the algorithm version used.
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecommendationResult'
+        warnings:
+          type: array
+          items:
+            type: string
+        generated_at:
+          type: string
+          format: date-time
+
+    RecommendationResult:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - score
+        - reasons
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        score:
+          type: number
+          format: float
+        reasons:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+          format: uri
+
+    NodeDTO:
+      type: object
+      required:
+        - id
+        - type
+        - name
+        - confidence
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        role:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        confidence:
+          type: number
+          format: float
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+        evidences:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+
+    EdgeDTO:
+      type: object
+      required:
+        - source_id
+        - target_id
+        - relation
+      properties:
+        source_id:
+          type: string
+        target_id:
+          type: string
+        relation:
+          type: string
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+        message:
+          type: string
