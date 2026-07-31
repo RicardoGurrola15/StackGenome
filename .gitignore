@@ -31,3 +31,5 @@ go.work.sum
 .engram/*.db-*
 .engram/*.sqlite
 .engram/*.sqlite-*
+backend/node_modules/
+backend/.wrangler/
