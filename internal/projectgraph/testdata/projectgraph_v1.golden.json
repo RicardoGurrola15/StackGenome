@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "nodes": [
+    {
+      "id": "lang_go",
+      "type": "language",
+      "name": "Go",
+      "version": "1.26.x",
+      "evidences": [
+        {
+          "kind": "manifest",
+          "path": "go.mod",
+          "value": "1.26",
+          "sensitivity": "public-metadata"
+        }
+      ],
+      "confidence": 1,
+      "properties": {
+        "primary": "true"
+      }
+    },
+    {
+      "id": "mod_stackgenome",
+      "type": "module",
+      "name": "stackgenome",
+      "evidences": [
+        {
+          "kind": "manifest",
+          "path": "go.mod",
+          "selector": "module",
+          "value": "stackgenome",
+          "sensitivity": "public-metadata"
+        }
+      ],
+      "confidence": 0.9
+    }
+  ],
+  "edges": [
+    {
+      "source_id": "mod_stackgenome",
+      "target_id": "lang_go",
+      "relation": "contains"
+    }
+  ]
+}

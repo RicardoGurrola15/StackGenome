@@ -1,0 +1,8 @@
+name: my_app
+description: A new Flutter project.
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^0.13.4
+dev_dependencies:
+  test: ^1.21.0

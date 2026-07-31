@@ -1,0 +1,6 @@
+requests==2.31.0
+flask>=3.0.0
+sqlalchemy~=2.0.0
+# dev deps below
+pytest==7.4.0
+black>=23.0,<24.0

@@ -1,0 +1,33 @@
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/settings.json
+.vscode/extensions.json
+
+# Local StackGenome configuration
+.stackgenome.local.toml
+mise.local.toml
+
+# Build
+/bin/
+/dist/
+/scratch/
+stackgenome
+/coverage/
+*.test
+*.prof
+
+# Go workspace artifacts (normally external)
+go.work.sum
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Engram local database/runtime artifacts.
+# Do not ignore sanitized exports intentionally produced by `engram sync`.
+.engram/*.db
+.engram/*.db-*
+.engram/*.sqlite
+.engram/*.sqlite-*

@@ -1,0 +1,37 @@
+name = "stackgenome-api"
+main = "src/index.ts"
+compatibility_date = "2026-07-30"
+compatibility_flags = ["nodejs_compat"]
+
+# Local development uses the DB binding against the local D1 instance
+[[d1_databases]]
+binding = "DB"
+database_name = "stackgenome-catalog-staging"
+# database_id is populated after `wrangler d1 create` (remote only)
+# Leave empty for local-only development
+database_id = "be0eff71-4492-48e9-943c-ae59b570349c"
+migrations_dir = "migrations"
+
+[vars]
+ENVIRONMENT = "local"
+RANKING_VERSION = "v1"
+MAX_PAYLOAD_BYTES = "32768"
+RATE_LIMIT_RPM = "10"
+
+# ─── Staging environment ──────────────────────────────────────────────────────
+# Activated with: wrangler deploy --env staging
+# database_id must be filled after remote D1 creation (second authorization)
+[env.staging]
+name = "stackgenome-api-staging"
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "stackgenome-catalog-staging"
+database_id = "be0eff71-4492-48e9-943c-ae59b570349c"  # Filled after `wrangler d1 create stackgenome-catalog-staging`
+migrations_dir = "migrations"
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+RANKING_VERSION = "v1"
+MAX_PAYLOAD_BYTES = "32768"
+RATE_LIMIT_RPM = "10"
