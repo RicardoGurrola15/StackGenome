@@ -1,18 +1,29 @@
 # Estado del Proyecto: StackGenome
 
-- **Fase actual**: 18B (Web Alpha Completada)
+- **Fase actual**: 19 (Validación con Territor — COMPLETADA)
+- **Resultado**: `PILOT_PASSED_WITH_FINDINGS`
 - **Bloqueos**: Ninguno.
-- **Siguiente fase pendiente de autorización**: Fase 19 (Validación con proyecto externo Territor).
+- **Siguiente fase pendiente de autorización**: Fase 20 (Correcciones post-piloto).
 
 ## Fases completadas
 - [x] Fase 0-15: Core, analizadores, y pipeline de CI.
 - [x] Fase 16: Auditoría Alpha.
 - [x] Fase 17: CI/CD.
-- [x] Fase 18A: Web Readiness Gate (CI limpio, contratos definidos).
-- [x] Fase 18B: Web Alpha (Next.js App Router, SSG Catalog, local File API para importación).
+- [x] Fase 18A: Web Readiness Gate.
+- [x] Fase 18B: Web Alpha.
+- [x] Fase 19: Validación piloto con Territor (Flutter/Dart real).
 
-## Notas técnicas actuales
-- Frontend implementado en `web/` usando Next.js 14. 
-- Componentes clave: `FileImporter` procesa localmente. `StackGraph` usa SVG + `d3-force` para grafos livianos. 
-- API calls al Worker apuntan a staging por defecto (ver `web/lib/api.ts`).
-- Contrato JSON tipado contra `docs/api/openapi.yaml`.
+## Hallazgos de Fase 19 (para resolver en Fase 20)
+- F-001 HIGH: Excluir ios/Pods/ y vendored code del análisis de lenguajes.
+- F-002 MEDIUM: Deduplicar nodos de plataforma por nombre.
+- F-003 HIGH: Añadir recursos Flutter/Dart al catálogo.
+- F-004 MEDIUM: Extraer versiones de dependencias desde pubspec.yaml.
+- F-005 MEDIUM: Diferenciar dev vs prod dependencies en Dart.
+- F-006 LOW: Detectar shorebird.yaml.
+- F-007 LOW: Detectar firebase.json como infraestructura.
+
+## Notas técnicas
+- Análisis de Territor: 3 runs deterministas, SHA-256 idéntico.
+- Privacidad: CLEAN (no rutas absolutas, no project IDs, no API keys en el JSON).
+- Territor: No modificado. git status idéntico pre/post análisis.
+- Reporte completo: docs/validation/TERRITOR_PILOT_VALIDATION_2026-07.md

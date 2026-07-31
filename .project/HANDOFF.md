@@ -2,33 +2,35 @@
 
 ## Última sesión
 
-Se completó la **Fase 18A (Web Readiness Gate)**. El resultado oficial es `WEB_READY`.
+Se completó la **Fase 19 — Validación Piloto con Territor**.
+Resultado: `PILOT_PASSED_WITH_FINDINGS`.
 
 ## Completado
 
-- **Fase 0-14**: Creación del analizador, tests, backend, sanitización, hardenización.
-- **Fase 15**: Alpha (binarios, licencia MIT, documentación pública).
-- **Fase 16**: Auditoría independiente. Se corrigieron los hallazgos y se hizo el commit inicial.
-- **Fase 17**: Automatización CI/CD (`ci.yml`, `release.yml`, `deploy-backend.yml`).
-- **Fase 18A**: Web Readiness Gate:
-  - Golden test corregido (`schema_version` en lugar de `version`).
-  - CORS endurecido a dominios autorizados (eliminado `*`).
-  - Contrato API OpenAPI 3.0 creado (`docs/api/openapi.yaml`).
-  - Catálogo validado: 30 herramientas, 0 errores.
-  - Política de privacidad web documentada (`docs/16_WEB_PRIVACY.md`).
-  - Matriz de entornos documentada (`docs/15_ENVIRONMENTS.md`).
-  - Arquitectura web propuesta (`docs/17_WEB_ARCHITECTURE.md`).
-  - Script de validación de catálogo (`scripts/validate-catalog.mjs`).
+- **Fase 0-15**: Creación del analizador, tests, backend, sanitización, hardenización.
+- **Fase 16**: Auditoría independiente Alpha.
+- **Fase 17**: Automatización CI/CD.
+- **Fase 18A**: Web Readiness Gate.
+- **Fase 18B**: Web Alpha (Next.js + d3-force + FileImporter local).
+- **Fase 19**: Validación con Territor (Flutter/Dart real).
+  - 3 ejecuciones deterministas sobre repositorio real.
+  - 7 hallazgos identificados (0 BLOCKER, 2 HIGH, 3 MEDIUM, 2 LOW).
+  - Privacidad confirmada CLEAN.
+  - Territor no modificado.
+  - Reporte: `docs/validation/TERRITOR_PILOT_VALIDATION_2026-07.md`.
 
-## Estado de la arquitectura
+## Hallazgos pendientes para Fase 20
 
-- CLI (Go): Funcional, con tests, binarios cruzados.
-- Backend (Cloudflare Workers + D1): Desplegado en staging, CORS endurecido.
-- CI/CD: Automatizado. `ci.yml` tiene govulncheck + backend tests.
-- Contratos: Versionados en OpenAPI 3.0.
-- Catálogo Staging: 30 herramientas validadas.
+| ID | Severidad | Descripción |
+|---|---|---|
+| F-001 | HIGH | Excluir ios/Pods/, android/.gradle/, build/ del análisis de lenguajes |
+| F-002 | MEDIUM | Deduplicar nodos de plataforma por nombre+tipo |
+| F-003 | HIGH | Añadir recursos Flutter/Dart al catálogo (fvm, melos, flutter_gen, etc.) |
+| F-004 | MEDIUM | Extraer versiones de dependencias en pubspec.yaml |
+| F-005 | MEDIUM | Diferenciar dev_dependencies de prod en Dart |
+| F-006 | LOW | Detectar shorebird.yaml como tooling |
+| F-007 | LOW | Detectar firebase.json como infraestructura |
 
 ## Siguiente acción
 
-Pendiente autorización explícita para **Fase 18B — Web Alpha**.
-Propuesta de stack: Next.js + Cloudflare Pages + React Force Graph.
+Pendiente autorización explícita para **Fase 20 — Correcciones post-piloto**.
