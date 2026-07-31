@@ -1,40 +1,18 @@
-# Estado del proyecto
+# Estado del Proyecto: StackGenome
 
-Actualizado: 2026-07-31
+- **Fase actual**: 18B (Web Alpha Completada)
+- **Bloqueos**: Ninguno.
+- **Siguiente fase pendiente de autorización**: Fase 19 (Validación con proyecto externo Territor).
 
-## Producto
+## Fases completadas
+- [x] Fase 0-15: Core, analizadores, y pipeline de CI.
+- [x] Fase 16: Auditoría Alpha.
+- [x] Fase 17: CI/CD.
+- [x] Fase 18A: Web Readiness Gate (CI limpio, contratos definidos).
+- [x] Fase 18B: Web Alpha (Next.js App Router, SSG Catalog, local File API para importación).
 
-- Nombre: StackGenome
-- Etapa: MVP en progreso
-- CLI: Go — funcional (Fases 0-13 completas)
-- Backend: Cloudflare Workers + D1 (Fase 12, completada)
-- Web: futura
-- App: futura
-
-## Estado Global
-
-`WEB_READY`
-
-## Fases Completadas
-
-- **Fase 0-11**: (Entorno, Core Analyzer, 20+ Detectores, Sanitización, Scoring Local, Catálogo Embebido).
-- **Fase 12**: Backend Cloudflare Workers + D1 (Desplegado en staging: `stackgenome-api-staging`).
-- **Fase 13**: UX final del CLI y conexión remota.
-- **Fase 14**: Calidad, seguridad y rendimiento.
-- **Fase 15**: Alpha (Binarios, Licencia MIT, Comunidad, Limitaciones).
-- **Fase 16**: Auditoría independiente (Completada, estado ALPHA_AUDIT_CONDITIONAL superado).
-- **Fase 17**: CI/CD Automático (Completada).
-- **Fase 18A**: Web Readiness Gate (Completada — resultado: `WEB_READY`).
-
-## Fase Activa
-
-**Fase 18A completada**
-
-## Pendiente Inmediato
-
-Pendiente autorización para iniciar **Fase 18B — Web Alpha** (Frontend / Dashboard).
-
-## Riesgos actuales
-
-- Límites Free de Cloudflare Workers (100K req/día, 10ms CPU/req) — adecuados para staging.
-- Elegir licencia antes de publicación abierta.
+## Notas técnicas actuales
+- Frontend implementado en `web/` usando Next.js 14. 
+- Componentes clave: `FileImporter` procesa localmente. `StackGraph` usa SVG + `d3-force` para grafos livianos. 
+- API calls al Worker apuntan a staging por defecto (ver `web/lib/api.ts`).
+- Contrato JSON tipado contra `docs/api/openapi.yaml`.
