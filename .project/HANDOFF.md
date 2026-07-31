@@ -7,8 +7,8 @@ Se inició y completó la **Fase 15 (Alpha)**. Esta fue la fase de culminación 
 ## Completado
 
 - **Fase 0-14**: Creación del analizador, tests, backend, sanitización, hardenización.
-- **Fase 15**: Empaquetado, binarios y Open Source.
-- **Fase 16**: Auditoría independiente (`ALPHA_AUDIT_CONDITIONAL`). Se encontró que falta el commit inicial, que la API y el CLI divergen sutilmente en un campo de validación de JSON (`schema_version` y nodos vacíos) y que el CLI no explota si se le pasa una ruta inexistente.
+- **Fase 16**: Auditoría independiente. Se corrigieron los hallazgos en Go y se hizo el commit inicial.
+- **Fase 17**: Automatización CI/CD completada (`ci.yml`, `release.yml`, `deploy-backend.yml`).
 
 ## Estado de la arquitectura
 

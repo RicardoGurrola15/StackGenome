@@ -2,11 +2,11 @@
 
 ## Fase autorizada
 
-**Fase 16 — Auditoría independiente del Alpha** (COMPLETADA)
+**Fase 17 — Automatización CI/CD** (COMPLETADA)
 
 ## Estado
 
-`ALPHA_AUDIT_CONDITIONAL`
+`COMPLETED`
 
 ## Objetivo
 

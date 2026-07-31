@@ -22,15 +22,16 @@ Actualizado: 2026-07-30
 - **Fase 13**: UX final del CLI y conexión remota.
 - **Fase 14**: Calidad, seguridad y rendimiento.
 - **Fase 15**: Alpha (Binarios, Licencia MIT, Comunidad, Limitaciones).
-- **Fase 16**: Auditoría independiente (Completada, estado ALPHA_AUDIT_CONDITIONAL).
+- **Fase 16**: Auditoría independiente (Completada, estado ALPHA_AUDIT_CONDITIONAL superado).
+- **Fase 17**: CI/CD Automático (Completada).
 
 ## Fase Activa
 
-**Auditoría Fase 16 finalizada**
+**Fase 17 completada**
 
 ## Pendiente Inmediato
 
-Corregir los 3 hallazgos menores (commit inicial, sync schema remote, error handling en path inválido) antes de iniciar CI/CD Automation o Frontend web.
+La siguiente prioridad del proyecto (Fase 18) es iniciar el desarrollo de la **Web UI (Dashboard)** para explorar de forma visual el grafo generado por el CLI.
 
 ## Riesgos actuales
 
