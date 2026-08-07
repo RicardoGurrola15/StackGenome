@@ -16,6 +16,7 @@ export interface CatalogEntry {
   description: string;
   url: string | undefined;
   targets: EntryTarget;
+  ecosystem: string[];
 }
 
 export async function queryResources(db: D1Database): Promise<CatalogEntry[]> {
@@ -32,8 +33,9 @@ export async function queryResources(db: D1Database): Promise<CatalogEntry[]> {
     name: row.canonical_name,
     description: row.summary,
     url: row.canonical_url || undefined,
+    ecosystem: JSON.parse(row.ecosystem || '[]'),
     targets: {
-      languages: JSON.parse(row.ecosystem || '[]'),
+      languages: [], // we will deprecate languages in favor of ecosystem
       infra: JSON.parse(row.infra_targets || '[]'),
       frameworks: [], // Simplified for MVP
     }

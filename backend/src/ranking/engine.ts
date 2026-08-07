@@ -59,6 +59,12 @@ function buildContext(fingerprint: FingerprintV1): ProjectContext {
     switch (n.type) {
       case 'language':
         ctx.languages.add(nameLower);
+        if (nameLower.includes('/')) {
+          const parts = nameLower.split('/');
+          for (const p of parts) {
+            ctx.languages.add(p.trim());
+          }
+        }
         break;
       case 'infrastructure':
         ctx.infra.add(nameLower);
@@ -73,11 +79,14 @@ function buildContext(fingerprint: FingerprintV1): ProjectContext {
 }
 
 function entryIsRelevant(e: CatalogEntry, ctx: ProjectContext): boolean {
-  if (e.targets.languages.length === 0 && e.targets.infra.length === 0 && e.targets.frameworks.length === 0) {
+  if (e.ecosystem.length === 0 && e.targets.infra.length === 0 && e.targets.frameworks.length === 0) {
     return true;
   }
-  for (const lang of e.targets.languages) {
-    if (ctx.languages.has(lang.toLowerCase())) return true;
+  if (e.ecosystem.length === 1 && e.ecosystem[0] === '*') {
+    return true;
+  }
+  for (const eco of e.ecosystem) {
+    if (ctx.languages.has(eco.toLowerCase())) return true;
   }
   for (const infra of e.targets.infra) {
     if (ctx.infra.has(infra.toLowerCase())) return true;
@@ -92,10 +101,10 @@ function computeScore(e: CatalogEntry, ctx: ProjectContext): { score: number; re
   let score = 0;
   const reasons: string[] = [];
 
-  const matchedLangs = e.targets.languages.filter(l => ctx.languages.has(l.toLowerCase()));
+  const matchedLangs = e.ecosystem.filter(l => l !== '*' && ctx.languages.has(l.toLowerCase()));
   if (matchedLangs.length > 0) {
     score += WEIGHTS.language;
-    reasons.push(`lenguaje compatible: ${matchedLangs.join(', ')}`);
+    reasons.push(`ecosistema compatible: ${matchedLangs.join(', ')}`);
   }
 
   const matchedInfra = e.targets.infra.filter(i => ctx.infra.has(i.toLowerCase()));
@@ -115,7 +124,7 @@ function computeScore(e: CatalogEntry, ctx: ProjectContext): { score: number; re
     reasons.push('herramienta no detectada aún en el proyecto');
   }
 
-  if (e.targets.languages.length === 0 && e.targets.infra.length === 0 && e.targets.frameworks.length === 0) {
+  if ((e.ecosystem.length === 0 || (e.ecosystem.length === 1 && e.ecosystem[0] === '*')) && e.targets.infra.length === 0 && e.targets.frameworks.length === 0) {
     if (score <= WEIGHTS.novelty) {
       score = WEIGHTS.novelty;
       reasons.push('herramienta de uso general');

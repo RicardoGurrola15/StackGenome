@@ -48,9 +48,9 @@ func TestCLI_Output(t *testing.T) {
 		t.Errorf("expected nodes in output, got none")
 	}
 
-	// Make sure version matches golden standard (schema v1)
-	versionRaw, ok := result["version"].(string)
+	// Make sure schema_version matches golden standard (schema v1)
+	versionRaw, ok := result["schema_version"].(string)
 	if !ok || versionRaw != "1.0.0" {
-		t.Errorf("expected version '1.0.0', got %v", versionRaw)
+		t.Errorf("expected schema_version '1.0.0', got %v", versionRaw)
 	}
 }

@@ -11,7 +11,8 @@ describe('Ranking Engine', () => {
       name: 'Go Linter',
       description: 'Linter for Go',
       url: undefined,
-      targets: { languages: ['go'], infra: [], frameworks: [] },
+      targets: { languages: [], infra: [], frameworks: [] },
+      ecosystem: ['go'],
     },
     {
       id: 'tool:docker-scanner',
@@ -19,6 +20,7 @@ describe('Ranking Engine', () => {
       description: 'Scans Docker images',
       url: undefined,
       targets: { languages: [], infra: ['docker'], frameworks: [] },
+      ecosystem: [],
     },
     {
       id: 'tool:generic-tool',
@@ -26,6 +28,7 @@ describe('Ranking Engine', () => {
       description: 'Works for anything',
       url: undefined,
       targets: { languages: [], infra: [], frameworks: [] },
+      ecosystem: [],
     }
   ];
 
@@ -42,7 +45,7 @@ describe('Ranking Engine', () => {
     // Go Linter should match language + novelty
     expect(recs[0].id).toBe('tool:go-linter');
     expect(recs[0].score).toBe(WEIGHTS.language + WEIGHTS.novelty);
-    expect(recs[0].reasons).toContain('lenguaje compatible: go');
+    expect(recs[0].reasons).toContain('ecosistema compatible: go');
   });
 
   it('ranks generic tools as fallback', () => {

@@ -19,6 +19,9 @@
 | D-013 | PURL/CycloneDX como estándares de interoperabilidad | aceptada |
 | D-014 | Adaptadores compilados en MVP | aceptada |
 | D-015 | Documentación Git como fuente de verdad; Engram auxiliar | aceptada |
+| D-016 | Deduplicación de nodos de plataforma (iOS/Android) | aceptada |
+| D-017 | Migración de 'languages' a 'ecosystem' en catálogo | aceptada |
+| D-018 | Exclusión estricta de rutas de vendor/build (ios/Pods) | aceptada |
 
 ## Pendientes
 
