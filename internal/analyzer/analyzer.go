@@ -33,7 +33,8 @@ func (a *Analyzer) Analyze() (*projectgraph.Graph, error) {
 	graph := projectgraph.NewGraph()
 
 	ctx := context.Background()
-	err := a.Walker.Walk(ctx, func(absPath string, d fs.DirEntry) error {
+	// The walker now passes relative paths in the callback.
+	err := a.Walker.Walk(ctx, func(relPath string, d fs.DirEntry) error {
 		// Only process regular files
 		if d == nil || d.IsDir() {
 			return nil
@@ -54,11 +55,8 @@ func (a *Analyzer) Analyze() (*projectgraph.Graph, error) {
 			return nil
 		}
 
-		// Get relative path for evidence recording
-		relPath, err := filepath.Rel(a.RootPath, absPath)
-		if err != nil {
-			return fmt.Errorf("failed to get relative path for %q: %w", absPath, err)
-		}
+		// Reconstruct absolute path for file reading
+		absPath := filepath.Join(a.RootPath, relPath)
 
 		// Read file content once for all interested detectors
 		content, err := os.ReadFile(absPath)
@@ -75,8 +73,7 @@ func (a *Analyzer) Analyze() (*projectgraph.Graph, error) {
 			}
 
 			for _, n := range nodes {
-				// We ignore collision errors here for simplicity,
-				// or we could merge evidences if the node exists.
+				// AddNode merges evidences if the node already exists (deduplication)
 				_ = graph.AddNode(n)
 			}
 			for _, e := range edges {
@@ -90,6 +87,9 @@ func (a *Analyzer) Analyze() (*projectgraph.Graph, error) {
 	if err != nil {
 		return nil, fmt.Errorf("analysis walk failed: %w", err)
 	}
+
+	// Post-processing: deduplicate platform nodes by canonical key
+	graph.DeduplicatePlatforms()
 
 	return graph, nil
 }

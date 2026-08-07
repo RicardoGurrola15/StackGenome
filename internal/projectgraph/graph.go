@@ -23,7 +23,12 @@ func NewGraph() *Graph {
 }
 
 // AddNode adds a new node to the graph.
-// If a node with the same ID already exists, it merges the evidences and returns nil.
+// If a node with the same ID already exists, it merges fields intelligently:
+//   - Evidences are always appended
+//   - Version, Resolved, Scope, Role are taken from the incoming node if the
+//     existing node has them empty (i.e. lockfile → pubspec.yaml enrichment)
+//   - Properties are merged (incoming values do not overwrite existing)
+//   - Confidence is kept at whichever value is higher
 func (g *Graph) AddNode(n *Node) error {
 	if n.ID == "" {
 		return fmt.Errorf("node ID cannot be empty")
@@ -36,8 +41,35 @@ func (g *Graph) AddNode(n *Node) error {
 	}
 
 	if existing, exists := g.nodes[n.ID]; exists {
-		// Merge evidences
+		// Always merge evidences
 		existing.Evidences = append(existing.Evidences, n.Evidences...)
+
+		// Enrich missing fields from incoming node
+		if existing.Version == "" && n.Version != "" {
+			existing.Version = n.Version
+		}
+		if existing.Resolved == "" && n.Resolved != "" {
+			existing.Resolved = n.Resolved
+		}
+		if existing.Scope == "" && n.Scope != "" {
+			existing.Scope = n.Scope
+		}
+		if existing.Role == "" && n.Role != "" {
+			existing.Role = n.Role
+		}
+		// Keep the higher confidence
+		if n.Confidence > existing.Confidence {
+			existing.Confidence = n.Confidence
+		}
+		// Merge properties: existing values are preserved; new keys added
+		if existing.Properties == nil && len(n.Properties) > 0 {
+			existing.Properties = make(map[string]string)
+		}
+		for k, v := range n.Properties {
+			if _, alreadySet := existing.Properties[k]; !alreadySet {
+				existing.Properties[k] = v
+			}
+		}
 		return nil
 	}
 
@@ -93,8 +125,10 @@ func (g *Graph) ToDTO() *schemav1.ProjectGraphDTO {
 			ID:         n.ID,
 			Type:       string(n.Type),
 			Role:       string(n.Role),
+			Scope:      string(n.Scope),
 			Name:       n.Name,
 			Version:    n.Version,
+			Resolved:   n.Resolved,
 			Evidences:  n.Evidences,
 			Confidence: n.Confidence,
 			Properties: props,
@@ -125,4 +159,45 @@ func (g *Graph) ToDTO() *schemav1.ProjectGraphDTO {
 	}
 
 	return dto
+}
+
+// DeduplicatePlatforms merges platform nodes that have the same Name into one
+// canonical node, aggregating all evidences. This prevents iOS/macOS from
+// generating dozens of nodes from multiple Xcode/CocoaPods config files.
+func (g *Graph) DeduplicatePlatforms() {
+	// Collect canonical platform nodes: key = "platform:name"
+	canonical := make(map[string]*Node) // key -> winning node
+	toRemove := make(map[string]bool)
+
+	for id, n := range g.nodes {
+		if n.Type != TypePlatform {
+			continue
+		}
+		key := "platform:" + strings.ToLower(n.Name)
+		if existing, ok := canonical[key]; ok {
+			// Merge evidences into existing node
+			existing.Evidences = append(existing.Evidences, n.Evidences...)
+			// Keep the higher confidence
+			if n.Confidence > existing.Confidence {
+				existing.Confidence = n.Confidence
+			}
+			toRemove[id] = true
+		} else {
+			canonical[key] = n
+		}
+	}
+
+	for id := range toRemove {
+		delete(g.nodes, id)
+	}
+
+	// Rebuild edges: filter out any edge pointing to a deduplicated (removed) node.
+	var cleanEdges []Edge
+	for _, e := range g.edges {
+		if toRemove[e.SourceID] || toRemove[e.TargetID] {
+			continue
+		}
+		cleanEdges = append(cleanEdges, e)
+	}
+	g.edges = cleanEdges
 }

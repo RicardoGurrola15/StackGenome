@@ -1,0 +1,5 @@
+# Shorebird configuration
+# Note: app_id is intentionally omitted from this test fixture
+# as StackGenome must NOT export it
+release_version: "1.0.0+1"
+auto_update: true

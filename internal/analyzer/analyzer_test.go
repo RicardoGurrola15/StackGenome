@@ -384,3 +384,162 @@ func TestAnalyzer_AllEdgesHaveValidNodes(t *testing.T) {
 		t.Errorf("expected at least one edge, got none")
 	}
 }
+
+// TestFlutterFull_VendoredPodsNotContaminating verifies F-001:
+// C/C++ files inside ios/Pods/ must NOT appear as language nodes.
+func TestFlutterFull_VendoredPodsNotContaminating(t *testing.T) {
+	fixturesPath := filepath.Join("testdata", "fixtures", "flutter_full")
+	a := NewAnalyzer(fixturesPath, allDetectors())
+	graph, err := a.Analyze()
+	if err != nil {
+		t.Fatalf("Analyze() failed: %v", err)
+	}
+	dto := graph.ToDTO()
+
+	for _, n := range dto.Nodes {
+		if n.Type == "language" && (n.Name == "C/C++" || n.Name == "C/C++ Header") {
+			t.Errorf("F-001 regression: vendored C/C++ from ios/Pods appeared as language node: id=%q name=%q", n.ID, n.Name)
+		}
+	}
+}
+
+// TestFlutterFull_DartDetected verifies Dart/Flutter is the primary language.
+func TestFlutterFull_DartDetected(t *testing.T) {
+	fixturesPath := filepath.Join("testdata", "fixtures", "flutter_full")
+	a := NewAnalyzer(fixturesPath, allDetectors())
+	graph, err := a.Analyze()
+	if err != nil {
+		t.Fatalf("Analyze() failed: %v", err)
+	}
+	dto := graph.ToDTO()
+
+	found := false
+	for _, n := range dto.Nodes {
+		if n.Type == "language" && n.Name == "Dart/Flutter" {
+			found = true
+			if n.Confidence < 0.9 {
+				t.Errorf("Dart/Flutter confidence too low: %.2f", n.Confidence)
+			}
+		}
+	}
+	if !found {
+		t.Error("expected Dart/Flutter language node, not found")
+	}
+}
+
+// TestFlutterFull_ShorebirdDetected verifies F-006: Shorebird is detected as a tool.
+func TestFlutterFull_ShorebirdDetected(t *testing.T) {
+	fixturesPath := filepath.Join("testdata", "fixtures", "flutter_full")
+	a := NewAnalyzer(fixturesPath, allDetectors())
+	graph, err := a.Analyze()
+	if err != nil {
+		t.Fatalf("Analyze() failed: %v", err)
+	}
+	dto := graph.ToDTO()
+
+	found := false
+	for _, n := range dto.Nodes {
+		if n.ID == "tool_shorebird" {
+			found = true
+			if _, hasAppID := n.Properties["app_id"]; hasAppID {
+				t.Error("F-006 privacy: tool_shorebird node must NOT expose app_id")
+			}
+		}
+	}
+	if !found {
+		t.Error("F-006: expected tool_shorebird node, not found")
+	}
+}
+
+// TestFlutterFull_FirebaseDetected verifies F-007: Firebase is detected as infrastructure
+// without leaking project IDs.
+func TestFlutterFull_FirebaseDetected(t *testing.T) {
+	fixturesPath := filepath.Join("testdata", "fixtures", "flutter_full")
+	a := NewAnalyzer(fixturesPath, allDetectors())
+	graph, err := a.Analyze()
+	if err != nil {
+		t.Fatalf("Analyze() failed: %v", err)
+	}
+	dto := graph.ToDTO()
+
+	found := false
+	for _, n := range dto.Nodes {
+		if n.ID == "infra_firebase" {
+			found = true
+			services, ok := n.Properties["services"]
+			if !ok || services == "" {
+				t.Error("F-007: infra_firebase node has no detected services")
+			}
+			if _, hasProjectID := n.Properties["project_id"]; hasProjectID {
+				t.Error("F-007 privacy: infra_firebase node must NOT expose project_id")
+			}
+		}
+	}
+	if !found {
+		t.Error("F-007: expected infra_firebase infrastructure node, not found")
+	}
+}
+
+// TestFlutterFull_DartDepsHaveVersionAndScope verifies F-004 and F-005.
+func TestFlutterFull_DartDepsHaveVersionAndScope(t *testing.T) {
+	fixturesPath := filepath.Join("testdata", "fixtures", "flutter_full")
+	a := NewAnalyzer(fixturesPath, allDetectors())
+	graph, err := a.Analyze()
+	if err != nil {
+		t.Fatalf("Analyze() failed: %v", err)
+	}
+	dto := graph.ToDTO()
+
+	type depInfo struct{ version, scope string }
+	var goRouter, buildRunner *depInfo
+	for _, n := range dto.Nodes {
+		if n.Type != "dependency" {
+			continue
+		}
+		switch n.ID {
+		case "dep_dart_go_router":
+			goRouter = &depInfo{n.Version, n.Scope}
+		case "dep_dart_build_runner":
+			buildRunner = &depInfo{n.Version, n.Scope}
+		}
+	}
+
+	if goRouter == nil {
+		t.Error("F-004: dep_dart_go_router not found")
+	} else {
+		if goRouter.version == "" {
+			t.Error("F-004: dep_dart_go_router has no declared version")
+		}
+		if goRouter.scope != "runtime" {
+			t.Errorf("F-005: dep_dart_go_router scope should be 'runtime', got %q", goRouter.scope)
+		}
+	}
+
+	if buildRunner == nil {
+		t.Error("F-005: dep_dart_build_runner not found")
+	} else if buildRunner.scope != "development" {
+		t.Errorf("F-005: dep_dart_build_runner scope should be 'development', got %q", buildRunner.scope)
+	}
+}
+
+// TestFlutterFull_LockfileResolvesVersions verifies pubspec.lock resolved versions
+// are merged into dependency nodes.
+func TestFlutterFull_LockfileResolvesVersions(t *testing.T) {
+	fixturesPath := filepath.Join("testdata", "fixtures", "flutter_full")
+	a := NewAnalyzer(fixturesPath, allDetectors())
+	graph, err := a.Analyze()
+	if err != nil {
+		t.Fatalf("Analyze() failed: %v", err)
+	}
+	dto := graph.ToDTO()
+
+	for _, n := range dto.Nodes {
+		if n.ID == "dep_dart_go_router" {
+			if n.Resolved == "" {
+				t.Error("dep_dart_go_router should have a resolved version from pubspec.lock")
+			}
+			return
+		}
+	}
+	t.Error("dep_dart_go_router not found in graph")
+}

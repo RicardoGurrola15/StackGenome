@@ -1,0 +1,44 @@
+name: territor_sample
+description: Synthetic Flutter/Dart project for StackGenome testing.
+publish_to: 'none'
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # State management
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.4
+  # Navigation
+  go_router: ^13.2.0
+  # Firebase
+  firebase_core: ^3.1.0
+  firebase_auth: ^5.1.0
+  cloud_firestore: ^5.1.0
+  # Maps & geo
+  geolocator: ^12.0.0
+  dart_geohash: ^1.0.1
+  # Local storage
+  hive: ^2.2.3
+  # Serialization
+  json_annotation: ^4.9.0
+  freezed_annotation: ^2.4.3
+  # UI
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10
+  # Path dependency
+  lucide_icons:
+    path: third_party/lucide_icons
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+  build_runner: ^2.4.9
+  json_serializable: ^6.8.0
+  freezed: ^2.5.2
+  riverpod_generator: ^2.4.0
+  custom_lint: ^0.6.3

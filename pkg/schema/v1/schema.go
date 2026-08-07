@@ -36,8 +36,10 @@ type NodeDTO struct {
 	ID         string              `json:"id"`
 	Type       string              `json:"type"` // e.g., "module", "language", "framework"
 	Role       string              `json:"role,omitempty"`
+	Scope      string              `json:"scope,omitempty"` // dependency scope: runtime, development, build, test
 	Name       string              `json:"name"`
-	Version    string              `json:"version,omitempty"`
+	Version    string              `json:"version,omitempty"`  // declared constraint
+	Resolved   string              `json:"resolved,omitempty"` // resolved/locked version
 	Evidences  []evidence.Evidence `json:"evidences,omitempty"`
 	Confidence float64             `json:"confidence"`
 	Properties map[string]string   `json:"properties,omitempty"`
