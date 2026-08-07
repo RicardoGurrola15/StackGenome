@@ -41,8 +41,12 @@ var vendoredPathPrefixes = []string{
 	"android/build/",
 	"android/app/build/",
 	"linux/build/",
+	"linux/flutter/",
+	"linux/runner/",
 	"macos/build/",
 	"windows/build/",
+	"windows/flutter/",
+	"windows/runner/",
 	"web/build/",
 	"build/",       // Generic build output (Dart, Go, etc.)
 	".pub-cache/",  // Pub global cache

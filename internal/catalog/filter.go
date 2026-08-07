@@ -27,6 +27,7 @@ func BuildContext(dto *schemav1.ProjectGraphDTO) *ProjectContext {
 	}
 
 	var primaryConf float64
+	var primaryEvidences int
 	for _, n := range dto.Nodes {
 		ctx.NodeIDs[n.ID] = true
 		switch n.Type {
@@ -40,9 +41,11 @@ func BuildContext(dto *schemav1.ProjectGraphDTO) *ProjectContext {
 					ctx.Languages[strings.TrimSpace(p)] = true
 				}
 			}
-			// Track the primary language (highest confidence)
-			if n.Confidence > primaryConf {
+			// Track the primary language (highest confidence + most evidences on tie)
+			evCount := len(n.Evidences)
+			if n.Confidence > primaryConf || (n.Confidence == primaryConf && evCount > primaryEvidences) {
 				primaryConf = n.Confidence
+				primaryEvidences = evCount
 				// Use the first part before "/" as the canonical primary name
 				if idx := strings.Index(n.Name, "/"); idx > 0 {
 					ctx.PrimaryLanguage = strings.ToLower(strings.TrimSpace(n.Name[:idx]))

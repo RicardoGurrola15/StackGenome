@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strings"
 
+	"stackgenome/internal/evidence"
 	schemav1 "stackgenome/pkg/schema/v1"
 )
 
@@ -121,6 +122,13 @@ func (g *Graph) ToDTO() *schemav1.ProjectGraphDTO {
 			}
 		}
 
+		// Sort evidences deterministically by path
+		sortedEvidences := make([]evidence.Evidence, len(n.Evidences))
+		copy(sortedEvidences, n.Evidences)
+		sort.Slice(sortedEvidences, func(i, j int) bool {
+			return sortedEvidences[i].Path < sortedEvidences[j].Path
+		})
+
 		dto.Nodes = append(dto.Nodes, schemav1.NodeDTO{
 			ID:         n.ID,
 			Type:       string(n.Type),
@@ -129,7 +137,7 @@ func (g *Graph) ToDTO() *schemav1.ProjectGraphDTO {
 			Name:       n.Name,
 			Version:    n.Version,
 			Resolved:   n.Resolved,
-			Evidences:  n.Evidences,
+			Evidences:  sortedEvidences,
 			Confidence: n.Confidence,
 			Properties: props,
 		})
@@ -169,7 +177,15 @@ func (g *Graph) DeduplicatePlatforms() {
 	canonical := make(map[string]*Node) // key -> winning node
 	toRemove := make(map[string]bool)
 
-	for id, n := range g.nodes {
+	// Sort node IDs to guarantee determinism
+	var nodeIDs []string
+	for id := range g.nodes {
+		nodeIDs = append(nodeIDs, id)
+	}
+	sort.Strings(nodeIDs)
+
+	for _, id := range nodeIDs {
+		n := g.nodes[id]
 		if n.Type != TypePlatform {
 			continue
 		}
