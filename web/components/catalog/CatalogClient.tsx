@@ -4,6 +4,7 @@ import type { CatalogResource } from '@/types/stackgenome'
 import { getCatalog } from '@/lib/api'
 import ResourceCard from '@/components/catalog/ResourceCard'
 import CatalogFilters from '@/components/catalog/CatalogFilters'
+import ResourceModal from '@/components/catalog/ResourceModal'
 import styles from './Catalog.module.css'
 
 export default function CatalogClient() {
@@ -14,6 +15,7 @@ export default function CatalogClient() {
   const [query, setQuery] = useState('')
   const [ecosystem, setEcosystem] = useState('')
   const [type, setType] = useState('')
+  const [selectedResource, setSelectedResource] = useState<CatalogResource | null>(null)
 
   useEffect(() => {
     getCatalog().then(res => {
@@ -120,8 +122,13 @@ export default function CatalogClient() {
         </div>
       ) : (
         <div className="grid-auto">
-          {filtered.map(r => <ResourceCard key={r.id} resource={r} />)}
+          {filtered.map(r => <ResourceCard key={r.id} resource={r} onClick={() => setSelectedResource(r)} />)}
         </div>
+      )}
+
+      {/* Modal */}
+      {selectedResource && (
+        <ResourceModal resource={selectedResource} onClose={() => setSelectedResource(null)} />
       )}
     </div>
   )

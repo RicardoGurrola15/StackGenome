@@ -9,9 +9,9 @@ const TYPE_COLORS: Record<string, string> = {
   platform: 'badge--orange',
 }
 
-export default function ResourceCard({ resource: r }: { resource: CatalogResource }) {
+export default function ResourceCard({ resource: r, onClick }: { resource: CatalogResource, onClick?: () => void }) {
   return (
-    <Link href={`/catalog/${encodeURIComponent(r.id)}`} className={`card card--interactive ${styles.card}`} aria-label={`Ver detalle de ${r.canonical_name}`}>
+    <div onClick={onClick} className={`card card--interactive ${styles.card}`} aria-label={`Ver detalle de ${r.canonical_name}`} role="button" tabIndex={0} onKeyDown={(e) => { if(e.key === 'Enter') onClick?.() }}>
       <div className={styles.header}>
         <span className={`badge ${TYPE_COLORS[r.type] ?? 'badge--gray'}`}>{r.type}</span>
         {r.status !== 'active' && (
@@ -28,6 +28,6 @@ export default function ResourceCard({ resource: r }: { resource: CatalogResourc
           <span className="badge badge--gray">+{r.ecosystem.length - 3}</span>
         )}
       </div>
-    </Link>
+    </div>
   )
 }
