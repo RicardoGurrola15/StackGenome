@@ -19,6 +19,7 @@ type Entry struct {
 	Description string      `json:"description"`
 	Tags        []string    `json:"tags"`
 	Targets     EntryTarget `json:"targets"`
+	Ecosystem   []string    `json:"ecosystem"` // e.g. ["dart", "flutter", "go"]
 	URL         string      `json:"url"`
 }
 

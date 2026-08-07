@@ -33,18 +33,14 @@ func TestFilter_KeepsRelevantEntries(t *testing.T) {
 	ctx := BuildContext(makeGoDockerDTO())
 
 	goOnlyEntry := Entry{
-		ID:   "tool:golangci-lint",
-		Name: "golangci-lint",
-		Targets: EntryTarget{
-			Languages: []string{"go"},
-		},
+		ID:        "tool:golangci-lint",
+		Name:      "golangci-lint",
+		Ecosystem: []string{"go"},
 	}
 	pythonOnlyEntry := Entry{
-		ID:   "tool:ruff",
-		Name: "Ruff",
-		Targets: EntryTarget{
-			Languages: []string{"python"},
-		},
+		ID:        "tool:ruff",
+		Name:      "Ruff",
+		Ecosystem: []string{"python"},
 	}
 
 	filtered := Filter([]Entry{goOnlyEntry, pythonOnlyEntry}, ctx)
@@ -61,9 +57,9 @@ func TestFilter_UniversalToolPassesAlways(t *testing.T) {
 	ctx := BuildContext(makeRustOnlyDTO())
 
 	universal := Entry{
-		ID:      "tool:universal",
-		Name:    "Universal",
-		Targets: EntryTarget{}, // no targets specified
+		ID:        "tool:universal",
+		Name:      "Universal",
+		Ecosystem: []string{}, // no targets specified
 	}
 
 	filtered := Filter([]Entry{universal}, ctx)
@@ -94,11 +90,9 @@ func TestFilter_InfraMatchSuffices(t *testing.T) {
 func TestScore_LanguageHitGivesCorrectWeight(t *testing.T) {
 	ctx := BuildContext(makeGoDockerDTO())
 	entry := Entry{
-		ID:   "tool:golangci-lint",
-		Name: "golangci-lint",
-		Targets: EntryTarget{
-			Languages: []string{"go"},
-		},
+		ID:        "tool:golangci-lint",
+		Name:      "golangci-lint",
+		Ecosystem: []string{"go"},
 	}
 
 	scored := Score([]Entry{entry}, ctx)
@@ -116,11 +110,11 @@ func TestScore_LanguageHitGivesCorrectWeight(t *testing.T) {
 func TestScore_LanguageAndInfraHitGivesHigherScore(t *testing.T) {
 	ctx := BuildContext(makeGoDockerDTO())
 	entry := Entry{
-		ID:   "tool:testcontainers",
-		Name: "Testcontainers",
+		ID:        "tool:testcontainers",
+		Name:      "Testcontainers",
+		Ecosystem: []string{"go"},
 		Targets: EntryTarget{
-			Languages: []string{"go"},
-			Infra:     []string{"docker"},
+			Infra: []string{"docker"},
 		},
 	}
 
@@ -139,8 +133,8 @@ func TestScore_LanguageAndInfraHitGivesHigherScore(t *testing.T) {
 func TestScore_IsDeterministic(t *testing.T) {
 	ctx := BuildContext(makeGoDockerDTO())
 	entries := []Entry{
-		{ID: "tool:b", Name: "B", Targets: EntryTarget{Languages: []string{"go"}}},
-		{ID: "tool:a", Name: "A", Targets: EntryTarget{Languages: []string{"go"}}},
+		{ID: "tool:b", Name: "B", Ecosystem: []string{"go"}},
+		{ID: "tool:a", Name: "A", Ecosystem: []string{"go"}},
 	}
 
 	first := Score(entries, ctx)
@@ -160,8 +154,8 @@ func TestScore_TiebreakByID(t *testing.T) {
 	ctx := BuildContext(makeGoDockerDTO())
 	// Both score identically (language match only)
 	entries := []Entry{
-		{ID: "tool:zzz", Name: "ZZZ", Targets: EntryTarget{Languages: []string{"go"}}},
-		{ID: "tool:aaa", Name: "AAA", Targets: EntryTarget{Languages: []string{"go"}}},
+		{ID: "tool:zzz", Name: "ZZZ", Ecosystem: []string{"go"}},
+		{ID: "tool:aaa", Name: "AAA", Ecosystem: []string{"go"}},
 	}
 
 	scored := Score(entries, ctx)

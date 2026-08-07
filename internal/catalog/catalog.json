@@ -4,362 +4,1012 @@
     {
       "id": "tool:opentelemetry",
       "name": "OpenTelemetry",
-      "description": "Estándar abierto de observabilidad: trazas, métricas y logs para cualquier lenguaje.",
-      "tags": ["observability", "tracing", "metrics", "logs"],
+      "description": "Est\u00e1ndar abierto de observabilidad: trazas, m\u00e9tricas y logs para cualquier lenguaje.",
+      "tags": [
+        "observability",
+        "tracing",
+        "metrics",
+        "logs"
+      ],
       "targets": {
-        "languages": ["go", "python", "java", "node", "dotnet", "php", "ruby"],
+        "languages": [
+          "go",
+          "python",
+          "java",
+          "node",
+          "dotnet",
+          "php",
+          "ruby"
+        ],
         "frameworks": [],
-        "infra": ["docker", "kubernetes"]
+        "infra": [
+          "docker",
+          "kubernetes"
+        ]
       },
-      "url": "https://opentelemetry.io"
+      "url": "https://opentelemetry.io",
+      "ecosystem": [
+        "go",
+        "python",
+        "node",
+        "php",
+        "ruby",
+        "dotnet",
+        "java"
+      ]
     },
     {
       "id": "tool:golangci-lint",
       "name": "golangci-lint",
-      "description": "Linter agregado de alta velocidad para proyectos Go con soporte para más de 50 linters.",
-      "tags": ["linting", "quality", "ci"],
+      "description": "Linter agregado de alta velocidad para proyectos Go con soporte para m\u00e1s de 50 linters.",
+      "tags": [
+        "linting",
+        "quality",
+        "ci"
+      ],
       "targets": {
-        "languages": ["go"],
+        "languages": [
+          "go"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://golangci-lint.run"
+      "url": "https://golangci-lint.run",
+      "ecosystem": [
+        "go"
+      ]
     },
     {
       "id": "tool:ruff",
       "name": "Ruff",
-      "description": "Linter y formateador de Python extremadamente rápido escrito en Rust.",
-      "tags": ["linting", "formatting", "quality"],
+      "description": "Linter y formateador de Python extremadamente r\u00e1pido escrito en Rust.",
+      "tags": [
+        "linting",
+        "formatting",
+        "quality"
+      ],
       "targets": {
-        "languages": ["python"],
+        "languages": [
+          "python"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://docs.astral.sh/ruff"
+      "url": "https://docs.astral.sh/ruff",
+      "ecosystem": [
+        "python"
+      ]
     },
     {
       "id": "tool:biome",
       "name": "Biome",
-      "description": "Toolchain unificada de linting y formateo para JavaScript/TypeScript, rápida y sin configuración.",
-      "tags": ["linting", "formatting", "quality"],
+      "description": "Toolchain unificada de linting y formateo para JavaScript/TypeScript, r\u00e1pida y sin configuraci\u00f3n.",
+      "tags": [
+        "linting",
+        "formatting",
+        "quality"
+      ],
       "targets": {
-        "languages": ["node"],
+        "languages": [
+          "node"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://biomejs.dev"
+      "url": "https://biomejs.dev",
+      "ecosystem": [
+        "node"
+      ]
     },
     {
       "id": "tool:mise",
       "name": "mise",
       "description": "Gestor de versiones de herramientas y entornos de desarrollo (sucesor de asdf) compatible con .mise.toml.",
-      "tags": ["toolchain", "environment", "developer-experience"],
+      "tags": [
+        "toolchain",
+        "environment",
+        "developer-experience"
+      ],
       "targets": {
-        "languages": ["go", "python", "node", "ruby", "rust"],
+        "languages": [
+          "go",
+          "python",
+          "node",
+          "ruby",
+          "rust"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://mise.jdx.dev"
+      "url": "https://mise.jdx.dev",
+      "ecosystem": [
+        "python",
+        "node",
+        "rust",
+        "ruby",
+        "go"
+      ]
     },
     {
       "id": "tool:trivy",
       "name": "Trivy",
-      "description": "Escáner de vulnerabilidades para contenedores, sistemas de archivos e infraestructura como código.",
-      "tags": ["security", "scanning", "iac", "containers"],
+      "description": "Esc\u00e1ner de vulnerabilidades para contenedores, sistemas de archivos e infraestructura como c\u00f3digo.",
+      "tags": [
+        "security",
+        "scanning",
+        "iac",
+        "containers"
+      ],
       "targets": {
         "languages": [],
         "frameworks": [],
-        "infra": ["docker", "kubernetes", "terraform"]
+        "infra": [
+          "docker",
+          "kubernetes",
+          "terraform"
+        ]
       },
-      "url": "https://trivy.dev"
+      "url": "https://trivy.dev",
+      "ecosystem": [
+        "*"
+      ]
     },
     {
       "id": "tool:cosign",
       "name": "Cosign",
-      "description": "Firma y verificación de imágenes de contenedor para cadenas de suministro de software seguras.",
-      "tags": ["security", "signing", "supply-chain"],
+      "description": "Firma y verificaci\u00f3n de im\u00e1genes de contenedor para cadenas de suministro de software seguras.",
+      "tags": [
+        "security",
+        "signing",
+        "supply-chain"
+      ],
       "targets": {
         "languages": [],
         "frameworks": [],
-        "infra": ["docker", "kubernetes"]
+        "infra": [
+          "docker",
+          "kubernetes"
+        ]
       },
-      "url": "https://docs.sigstore.dev/cosign/overview"
+      "url": "https://docs.sigstore.dev/cosign/overview",
+      "ecosystem": [
+        "*"
+      ]
     },
     {
       "id": "tool:renovate",
       "name": "Renovate",
-      "description": "Actualizaciones automáticas de dependencias para más de 60 gestores de paquetes.",
-      "tags": ["dependencies", "automation", "security"],
+      "description": "Actualizaciones autom\u00e1ticas de dependencias para m\u00e1s de 60 gestores de paquetes.",
+      "tags": [
+        "dependencies",
+        "automation",
+        "security"
+      ],
       "targets": {
-        "languages": ["go", "python", "node", "rust", "java", "php", "ruby", "dotnet"],
+        "languages": [
+          "go",
+          "python",
+          "node",
+          "rust",
+          "java",
+          "php",
+          "ruby",
+          "dotnet"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://docs.renovatebot.com"
+      "url": "https://docs.renovatebot.com",
+      "ecosystem": [
+        "python",
+        "dotnet",
+        "node",
+        "php",
+        "rust",
+        "ruby",
+        "go",
+        "java"
+      ]
     },
     {
       "id": "tool:act",
       "name": "act",
       "description": "Ejecuta GitHub Actions localmente para iterar sin hacer push.",
-      "tags": ["ci", "developer-experience", "github-actions"],
+      "tags": [
+        "ci",
+        "developer-experience",
+        "github-actions"
+      ],
       "targets": {
         "languages": [],
         "frameworks": [],
-        "infra": ["github-actions"]
+        "infra": [
+          "github-actions"
+        ]
       },
-      "url": "https://nektosact.com"
+      "url": "https://nektosact.com",
+      "ecosystem": [
+        "*"
+      ]
     },
     {
       "id": "tool:earthly",
       "name": "Earthly",
       "description": "Sistema de build reproducible y portable que funciona con cualquier CI/CD.",
-      "tags": ["build", "ci", "reproducibility"],
+      "tags": [
+        "build",
+        "ci",
+        "reproducibility"
+      ],
       "targets": {
-        "languages": ["go", "python", "node", "rust", "java"],
+        "languages": [
+          "go",
+          "python",
+          "node",
+          "rust",
+          "java"
+        ],
         "frameworks": [],
-        "infra": ["docker"]
+        "infra": [
+          "docker"
+        ]
       },
-      "url": "https://earthly.dev"
+      "url": "https://earthly.dev",
+      "ecosystem": [
+        "python",
+        "node",
+        "rust",
+        "go",
+        "java"
+      ]
     },
     {
       "id": "tool:testcontainers",
       "name": "Testcontainers",
-      "description": "Tests de integración con contenedores reales, sin mocks, en varios lenguajes.",
-      "tags": ["testing", "integration-tests", "containers"],
+      "description": "Tests de integraci\u00f3n con contenedores reales, sin mocks, en varios lenguajes.",
+      "tags": [
+        "testing",
+        "integration-tests",
+        "containers"
+      ],
       "targets": {
-        "languages": ["go", "java", "python", "node", "dotnet", "rust"],
+        "languages": [
+          "go",
+          "java",
+          "python",
+          "node",
+          "dotnet",
+          "rust"
+        ],
         "frameworks": [],
-        "infra": ["docker"]
+        "infra": [
+          "docker"
+        ]
       },
-      "url": "https://testcontainers.com"
+      "url": "https://testcontainers.com",
+      "ecosystem": [
+        "go",
+        "python",
+        "node",
+        "rust",
+        "dotnet",
+        "java"
+      ]
     },
     {
       "id": "tool:buf",
       "name": "Buf",
       "description": "Herramienta moderna para gestionar y versionar Protobuf/gRPC con linting y breaking-change detection.",
-      "tags": ["protobuf", "grpc", "api", "quality"],
+      "tags": [
+        "protobuf",
+        "grpc",
+        "api",
+        "quality"
+      ],
       "targets": {
-        "languages": ["go", "python", "java", "node"],
+        "languages": [
+          "go",
+          "python",
+          "java",
+          "node"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://buf.build"
+      "url": "https://buf.build",
+      "ecosystem": [
+        "python",
+        "node",
+        "go",
+        "java"
+      ]
     },
     {
       "id": "tool:temporal",
       "name": "Temporal",
-      "description": "Plataforma de orquestación de flujos de trabajo duraderos y tolerantes a fallos.",
-      "tags": ["workflows", "orchestration", "reliability"],
+      "description": "Plataforma de orquestaci\u00f3n de flujos de trabajo duraderos y tolerantes a fallos.",
+      "tags": [
+        "workflows",
+        "orchestration",
+        "reliability"
+      ],
       "targets": {
-        "languages": ["go", "java", "python", "node", "dotnet", "php"],
+        "languages": [
+          "go",
+          "java",
+          "python",
+          "node",
+          "dotnet",
+          "php"
+        ],
         "frameworks": [],
-        "infra": ["docker", "kubernetes"]
+        "infra": [
+          "docker",
+          "kubernetes"
+        ]
       },
-      "url": "https://temporal.io"
+      "url": "https://temporal.io",
+      "ecosystem": [
+        "go",
+        "python",
+        "node",
+        "php",
+        "dotnet",
+        "java"
+      ]
     },
     {
       "id": "tool:sops",
       "name": "SOPS",
       "description": "Editor de secretos encriptados compatible con AWS KMS, GCP KMS, Azure Key Vault y age.",
-      "tags": ["secrets", "security", "iac"],
+      "tags": [
+        "secrets",
+        "security",
+        "iac"
+      ],
       "targets": {
         "languages": [],
         "frameworks": [],
-        "infra": ["terraform", "docker", "kubernetes"]
+        "infra": [
+          "terraform",
+          "docker",
+          "kubernetes"
+        ]
       },
-      "url": "https://getsops.io"
+      "url": "https://getsops.io",
+      "ecosystem": [
+        "*"
+      ]
     },
     {
       "id": "tool:dagger",
       "name": "Dagger",
       "description": "Pipelines de CI/CD portables programados en Go, Python o TypeScript.",
-      "tags": ["ci", "pipelines", "developer-experience"],
+      "tags": [
+        "ci",
+        "pipelines",
+        "developer-experience"
+      ],
       "targets": {
-        "languages": ["go", "python", "node"],
+        "languages": [
+          "go",
+          "python",
+          "node"
+        ],
         "frameworks": [],
-        "infra": ["docker"]
+        "infra": [
+          "docker"
+        ]
       },
-      "url": "https://dagger.io"
+      "url": "https://dagger.io",
+      "ecosystem": [
+        "python",
+        "node",
+        "go"
+      ]
     },
     {
       "id": "tool:nix",
       "name": "Nix / Flakes",
       "description": "Entornos de desarrollo completamente reproducibles mediante Nix Flakes.",
-      "tags": ["environment", "reproducibility", "developer-experience"],
+      "tags": [
+        "environment",
+        "reproducibility",
+        "developer-experience"
+      ],
       "targets": {
-        "languages": ["go", "rust", "python", "node", "ruby"],
+        "languages": [
+          "go",
+          "rust",
+          "python",
+          "node",
+          "ruby"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://nix.dev"
+      "url": "https://nix.dev",
+      "ecosystem": [
+        "python",
+        "node",
+        "rust",
+        "ruby",
+        "go"
+      ]
     },
     {
       "id": "tool:k6",
       "name": "k6",
       "description": "Herramienta de pruebas de carga y performance con scripts en JavaScript.",
-      "tags": ["performance", "testing", "load-testing"],
+      "tags": [
+        "performance",
+        "testing",
+        "load-testing"
+      ],
       "targets": {
-        "languages": ["node", "go", "python", "java"],
+        "languages": [
+          "node",
+          "go",
+          "python",
+          "java"
+        ],
         "frameworks": [],
-        "infra": ["docker", "kubernetes"]
+        "infra": [
+          "docker",
+          "kubernetes"
+        ]
       },
-      "url": "https://k6.io"
+      "url": "https://k6.io",
+      "ecosystem": [
+        "python",
+        "node",
+        "go",
+        "java"
+      ]
     },
     {
       "id": "tool:cargo-nextest",
       "name": "cargo-nextest",
-      "description": "Runner de tests para Rust más rápido que `cargo test`, con mejor output y retry.",
-      "tags": ["testing", "rust"],
+      "description": "Runner de tests para Rust m\u00e1s r\u00e1pido que `cargo test`, con mejor output y retry.",
+      "tags": [
+        "testing",
+        "rust"
+      ],
       "targets": {
-        "languages": ["rust"],
+        "languages": [
+          "rust"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://nexte.st"
+      "url": "https://nexte.st",
+      "ecosystem": [
+        "rust"
+      ]
     },
     {
       "id": "tool:sqlc",
       "name": "sqlc",
-      "description": "Genera código Go tipado a partir de SQL puro, sin ORM.",
-      "tags": ["database", "code-generation", "sql"],
+      "description": "Genera c\u00f3digo Go tipado a partir de SQL puro, sin ORM.",
+      "tags": [
+        "database",
+        "code-generation",
+        "sql"
+      ],
       "targets": {
-        "languages": ["go"],
+        "languages": [
+          "go"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://sqlc.dev"
+      "url": "https://sqlc.dev",
+      "ecosystem": [
+        "go"
+      ]
     },
     {
       "id": "tool:just",
       "name": "just",
       "description": "Task runner moderno y portable (sucesor espiritual de make) con sintaxis legible.",
-      "tags": ["build", "automation", "developer-experience"],
+      "tags": [
+        "build",
+        "automation",
+        "developer-experience"
+      ],
       "targets": {
-        "languages": ["go", "rust", "python", "node", "ruby", "cpp"],
+        "languages": [
+          "go",
+          "rust",
+          "python",
+          "node",
+          "ruby",
+          "cpp"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://just.systems"
+      "url": "https://just.systems",
+      "ecosystem": [
+        "python",
+        "node",
+        "rust",
+        "ruby",
+        "cpp",
+        "go"
+      ]
     },
     {
       "id": "tool:atuin",
       "name": "Atuin",
-      "description": "Historial de shell sincronizado y cifrado — mejora el workflow de cada desarrollador.",
-      "tags": ["developer-experience", "shell"],
+      "description": "Historial de shell sincronizado y cifrado \u2014 mejora el workflow de cada desarrollador.",
+      "tags": [
+        "developer-experience",
+        "shell"
+      ],
       "targets": {
         "languages": [],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://atuin.sh"
+      "url": "https://atuin.sh",
+      "ecosystem": [
+        "*"
+      ]
     },
     {
       "id": "tool:checkov",
       "name": "Checkov",
-      "description": "Análisis estático de IaC para Terraform, Kubernetes y Dockerfile en busca de malas prácticas de seguridad.",
-      "tags": ["security", "iac", "static-analysis"],
+      "description": "An\u00e1lisis est\u00e1tico de IaC para Terraform, Kubernetes y Dockerfile en busca de malas pr\u00e1cticas de seguridad.",
+      "tags": [
+        "security",
+        "iac",
+        "static-analysis"
+      ],
       "targets": {
         "languages": [],
         "frameworks": [],
-        "infra": ["terraform", "kubernetes", "docker"]
+        "infra": [
+          "terraform",
+          "kubernetes",
+          "docker"
+        ]
       },
-      "url": "https://checkov.io"
+      "url": "https://checkov.io",
+      "ecosystem": [
+        "*"
+      ]
     },
     {
       "id": "tool:pact",
       "name": "Pact",
       "description": "Consumer-driven contract testing para APIs y microservicios.",
-      "tags": ["testing", "contracts", "microservices", "api"],
+      "tags": [
+        "testing",
+        "contracts",
+        "microservices",
+        "api"
+      ],
       "targets": {
-        "languages": ["go", "java", "node", "python", "dotnet", "ruby"],
+        "languages": [
+          "go",
+          "java",
+          "node",
+          "python",
+          "dotnet",
+          "ruby"
+        ],
         "frameworks": [],
-        "infra": ["kubernetes", "docker"]
+        "infra": [
+          "kubernetes",
+          "docker"
+        ]
       },
-      "url": "https://pact.io"
-      },
+      "url": "https://pact.io",
+      "ecosystem": [
+        "go",
+        "python",
+        "node",
+        "ruby",
+        "dotnet",
+        "java"
+      ]
+    },
     {
       "id": "tool:taskfile",
       "name": "Task (Taskfile)",
-      "description": "Task runner en YAML más simple que Makefile, con soporte para variables y dependencias.",
-      "tags": ["build", "automation", "developer-experience"],
+      "description": "Task runner en YAML m\u00e1s simple que Makefile, con soporte para variables y dependencias.",
+      "tags": [
+        "build",
+        "automation",
+        "developer-experience"
+      ],
       "targets": {
-        "languages": ["go", "node", "python", "rust"],
+        "languages": [
+          "go",
+          "node",
+          "python",
+          "rust"
+        ],
         "frameworks": [],
-        "infra": ["docker"]
+        "infra": [
+          "docker"
+        ]
       },
-      "url": "https://taskfile.dev"
+      "url": "https://taskfile.dev",
+      "ecosystem": [
+        "python",
+        "node",
+        "go",
+        "rust"
+      ]
     },
     {
       "id": "tool:grype",
       "name": "Grype",
-      "description": "Escáner de vulnerabilidades de Anchore para imágenes de contenedor y sistemas de archivos.",
-      "tags": ["security", "scanning", "containers"],
+      "description": "Esc\u00e1ner de vulnerabilidades de Anchore para im\u00e1genes de contenedor y sistemas de archivos.",
+      "tags": [
+        "security",
+        "scanning",
+        "containers"
+      ],
       "targets": {
         "languages": [],
         "frameworks": [],
-        "infra": ["docker", "kubernetes"]
+        "infra": [
+          "docker",
+          "kubernetes"
+        ]
       },
-      "url": "https://anchore.com/grype"
+      "url": "https://anchore.com/grype",
+      "ecosystem": [
+        "*"
+      ]
     },
     {
       "id": "tool:typos",
       "name": "typos",
-      "description": "Corrector de errores ortográficos en código fuente, ultra-rápido, pensado para CI.",
-      "tags": ["quality", "ci", "developer-experience"],
+      "description": "Corrector de errores ortogr\u00e1ficos en c\u00f3digo fuente, ultra-r\u00e1pido, pensado para CI.",
+      "tags": [
+        "quality",
+        "ci",
+        "developer-experience"
+      ],
       "targets": {
-        "languages": ["go", "rust", "python", "node", "java", "cpp", "ruby", "php"],
+        "languages": [
+          "go",
+          "rust",
+          "python",
+          "node",
+          "java",
+          "cpp",
+          "ruby",
+          "php"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://crates.io/crates/typos"
+      "url": "https://crates.io/crates/typos",
+      "ecosystem": [
+        "python",
+        "node",
+        "php",
+        "rust",
+        "ruby",
+        "cpp",
+        "go",
+        "java"
+      ]
     },
     {
       "id": "tool:mermaid",
       "name": "Mermaid",
-      "description": "Diagramas como código directamente en Markdown — compatible con GitHub, GitLab y VS Code.",
-      "tags": ["documentation", "diagrams", "developer-experience"],
+      "description": "Diagramas como c\u00f3digo directamente en Markdown \u2014 compatible con GitHub, GitLab y VS Code.",
+      "tags": [
+        "documentation",
+        "diagrams",
+        "developer-experience"
+      ],
       "targets": {
-        "languages": ["go", "node", "python", "java", "rust"],
+        "languages": [
+          "go",
+          "node",
+          "python",
+          "java",
+          "rust"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://mermaid.js.org"
+      "url": "https://mermaid.js.org",
+      "ecosystem": [
+        "python",
+        "node",
+        "rust",
+        "go",
+        "java"
+      ]
     },
     {
       "id": "tool:pkl",
       "name": "Pkl",
-      "description": "Lenguaje de configuración tipado de Apple con validación integrada y generación a JSON/YAML.",
-      "tags": ["configuration", "iac", "type-safety"],
+      "description": "Lenguaje de configuraci\u00f3n tipado de Apple con validaci\u00f3n integrada y generaci\u00f3n a JSON/YAML.",
+      "tags": [
+        "configuration",
+        "iac",
+        "type-safety"
+      ],
       "targets": {
-        "languages": ["go", "java", "swift", "node", "python"],
+        "languages": [
+          "go",
+          "java",
+          "swift",
+          "node",
+          "python"
+        ],
         "frameworks": [],
-        "infra": ["kubernetes", "terraform"]
+        "infra": [
+          "kubernetes",
+          "terraform"
+        ]
       },
-      "url": "https://pkl-lang.org"
+      "url": "https://pkl-lang.org",
+      "ecosystem": [
+        "python",
+        "node",
+        "swift",
+        "go",
+        "java"
+      ]
     },
     {
       "id": "tool:vcluster",
       "name": "vCluster",
-      "description": "Clusters de Kubernetes virtuales ligeros y efímeros para entornos de desarrollo y CI.",
-      "tags": ["kubernetes", "developer-experience", "ci"],
+      "description": "Clusters de Kubernetes virtuales ligeros y ef\u00edmeros para entornos de desarrollo y CI.",
+      "tags": [
+        "kubernetes",
+        "developer-experience",
+        "ci"
+      ],
       "targets": {
         "languages": [],
         "frameworks": [],
-        "infra": ["kubernetes", "docker"]
+        "infra": [
+          "kubernetes",
+          "docker"
+        ]
       },
-      "url": "https://vcluster.com"
+      "url": "https://vcluster.com",
+      "ecosystem": [
+        "*"
+      ]
     },
     {
       "id": "tool:lefthook",
       "name": "Lefthook",
-      "description": "Gestor de git hooks rápido y multilingüe como alternativa a Husky.",
-      "tags": ["git", "automation", "quality", "ci"],
+      "description": "Gestor de git hooks r\u00e1pido y multiling\u00fce como alternativa a Husky.",
+      "tags": [
+        "git",
+        "automation",
+        "quality",
+        "ci"
+      ],
       "targets": {
-        "languages": ["go", "node", "python", "ruby", "rust"],
+        "languages": [
+          "go",
+          "node",
+          "python",
+          "ruby",
+          "rust"
+        ],
         "frameworks": [],
         "infra": []
       },
-      "url": "https://evilmartians.com/chronicles/lefthook-fast-and-powerful-git-hooks-manager"
+      "url": "https://evilmartians.com/chronicles/lefthook-fast-and-powerful-git-hooks-manager",
+      "ecosystem": [
+        "python",
+        "node",
+        "rust",
+        "ruby",
+        "go"
+      ]
+    },
+    {
+      "id": "tool:fvm",
+      "name": "FVM (Flutter Version Management)",
+      "description": "Gestor de versiones de Flutter por proyecto para asegurar builds consistentes.",
+      "tags": [
+        "toolchain",
+        "environment",
+        "flutter"
+      ],
+      "targets": {
+        "languages": [
+          "dart",
+          "flutter"
+        ],
+        "frameworks": [
+          "flutter"
+        ],
+        "infra": []
+      },
+      "ecosystem": [
+        "dart",
+        "flutter"
+      ],
+      "url": "https://fvm.app"
+    },
+    {
+      "id": "tool:melos",
+      "name": "Melos",
+      "description": "Herramienta CLI para gestionar monorepos (workspaces) en proyectos Dart y Flutter.",
+      "tags": [
+        "monorepo",
+        "workspaces",
+        "flutter",
+        "dart"
+      ],
+      "targets": {
+        "languages": [
+          "dart",
+          "flutter"
+        ],
+        "frameworks": [
+          "flutter"
+        ],
+        "infra": []
+      },
+      "ecosystem": [
+        "dart",
+        "flutter"
+      ],
+      "url": "https://melos.invertase.dev"
+    },
+    {
+      "id": "tool:flutter_gen",
+      "name": "FlutterGen",
+      "description": "Generador de c\u00f3digo para assets, fuentes, y colores de Flutter \u2014 evita errores de tipeo.",
+      "tags": [
+        "code-generation",
+        "assets",
+        "flutter"
+      ],
+      "targets": {
+        "languages": [
+          "dart",
+          "flutter"
+        ],
+        "frameworks": [
+          "flutter"
+        ],
+        "infra": []
+      },
+      "ecosystem": [
+        "dart",
+        "flutter"
+      ],
+      "url": "https://pub.dev/packages/flutter_gen"
+    },
+    {
+      "id": "tool:very_good_cli",
+      "name": "Very Good CLI",
+      "description": "Herramienta de scaffolding para generar proyectos Flutter modernos, escalables y con tests.",
+      "tags": [
+        "scaffolding",
+        "quality",
+        "flutter"
+      ],
+      "targets": {
+        "languages": [
+          "dart",
+          "flutter"
+        ],
+        "frameworks": [
+          "flutter"
+        ],
+        "infra": []
+      },
+      "ecosystem": [
+        "dart",
+        "flutter"
+      ],
+      "url": "https://cli.vgv.dev"
+    },
+    {
+      "id": "tool:shorebird",
+      "name": "Shorebird",
+      "description": "Actualizaciones OTA (Over-The-Air) para apps Flutter, empujando parches instant\u00e1neos.",
+      "tags": [
+        "ota",
+        "distribution",
+        "flutter"
+      ],
+      "targets": {
+        "languages": [
+          "dart",
+          "flutter"
+        ],
+        "frameworks": [
+          "flutter"
+        ],
+        "infra": []
+      },
+      "ecosystem": [
+        "dart",
+        "flutter"
+      ],
+      "url": "https://shorebird.dev"
+    },
+    {
+      "id": "tool:patrol",
+      "name": "Patrol",
+      "description": "Framework avanzado de UI testing para Flutter, con soporte para interactuar con SO nativo.",
+      "tags": [
+        "testing",
+        "integration-tests",
+        "flutter"
+      ],
+      "targets": {
+        "languages": [
+          "dart",
+          "flutter"
+        ],
+        "frameworks": [
+          "flutter"
+        ],
+        "infra": []
+      },
+      "ecosystem": [
+        "dart",
+        "flutter"
+      ],
+      "url": "https://patrol.leancode.co"
+    },
+    {
+      "id": "tool:dart_frog",
+      "name": "Dart Frog",
+      "description": "Framework r\u00e1pido y minimalista para construir backends y APIs en Dart.",
+      "tags": [
+        "backend",
+        "api",
+        "dart"
+      ],
+      "targets": {
+        "languages": [
+          "dart"
+        ],
+        "frameworks": [],
+        "infra": []
+      },
+      "ecosystem": [
+        "dart"
+      ],
+      "url": "https://dartfrog.vgv.dev"
+    },
+    {
+      "id": "tool:leak_tracker",
+      "name": "Leak Tracker",
+      "description": "Herramienta de detecci\u00f3n de memory leaks para Dart y Flutter.",
+      "tags": [
+        "performance",
+        "memory",
+        "flutter"
+      ],
+      "targets": {
+        "languages": [
+          "dart",
+          "flutter"
+        ],
+        "frameworks": [
+          "flutter"
+        ],
+        "infra": []
+      },
+      "ecosystem": [
+        "dart",
+        "flutter"
+      ],
+      "url": "https://pub.dev/packages/leak_tracker"
     }
   ]
 }

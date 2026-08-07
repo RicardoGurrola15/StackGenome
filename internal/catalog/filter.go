@@ -12,6 +12,9 @@ type ProjectContext struct {
 	Infra      map[string]bool
 	Frameworks map[string]bool
 	NodeIDs    map[string]bool
+	// PrimaryLanguage is the name of the highest-confidence language node.
+	// Used by the scorer to apply the primaryLanguageBoost.
+	PrimaryLanguage string
 }
 
 // BuildContext extracts a lookup-friendly context from an analyzed DTO.
@@ -23,11 +26,30 @@ func BuildContext(dto *schemav1.ProjectGraphDTO) *ProjectContext {
 		NodeIDs:    make(map[string]bool),
 	}
 
+	var primaryConf float64
 	for _, n := range dto.Nodes {
 		ctx.NodeIDs[n.ID] = true
 		switch n.Type {
 		case "language":
-			ctx.Languages[strings.ToLower(n.Name)] = true
+			nameLower := strings.ToLower(n.Name)
+			ctx.Languages[nameLower] = true
+			// Split compound names like "dart/flutter" → add both "dart" and "flutter"
+			if strings.Contains(nameLower, "/") {
+				parts := strings.Split(nameLower, "/")
+				for _, p := range parts {
+					ctx.Languages[strings.TrimSpace(p)] = true
+				}
+			}
+			// Track the primary language (highest confidence)
+			if n.Confidence > primaryConf {
+				primaryConf = n.Confidence
+				// Use the first part before "/" as the canonical primary name
+				if idx := strings.Index(n.Name, "/"); idx > 0 {
+					ctx.PrimaryLanguage = strings.ToLower(strings.TrimSpace(n.Name[:idx]))
+				} else {
+					ctx.PrimaryLanguage = strings.ToLower(n.Name)
+				}
+			}
 		case "infrastructure":
 			ctx.Infra[strings.ToLower(n.Name)] = true
 		case "framework":
@@ -53,11 +75,15 @@ func Filter(entries []Entry, ctx *ProjectContext) []Entry {
 
 func entryIsRelevant(e Entry, ctx *ProjectContext) bool {
 	// If the entry targets nothing specific, it's universally relevant
-	if len(e.Targets.Languages) == 0 && len(e.Targets.Infra) == 0 && len(e.Targets.Frameworks) == 0 {
+	if len(e.Ecosystem) == 0 && len(e.Targets.Infra) == 0 && len(e.Targets.Frameworks) == 0 {
+		return true
+	}
+	// Also treat ["*"] as universally relevant for ecosystem
+	if len(e.Ecosystem) == 1 && e.Ecosystem[0] == "*" {
 		return true
 	}
 
-	for _, lang := range e.Targets.Languages {
+	for _, lang := range e.Ecosystem {
 		if ctx.Languages[strings.ToLower(lang)] {
 			return true
 		}
