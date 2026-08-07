@@ -1,35 +1,119 @@
-# OS / IDE
+# OS / macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDEs y configuración local
 .idea/
 .vscode/settings.json
 .vscode/extensions.json
+*.code-workspace
+*.iml
+
+# Variables y secretos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.*
+credentials.*
+
+# Go
+/bin/
+/dist/
+/scratch/
+stackgenome
+stackgenome_cli
+/coverage/
+coverage.out
+*.test
+*.prof
+go.work
+go.work.sum
+
+# Temporary work scripts
+fix_catalog.py
+
+# Go workspace artifacts (normally external)
+# go.work.sum already above
 
 # Local StackGenome configuration
 .stackgenome.local.toml
 mise.local.toml
 
-# Build
-/bin/
-/dist/
-/scratch/
-stackgenome
-/coverage/
-*.test
-*.prof
+# Node / Web
+node_modules/
+.next/
+out/
+.nuxt/
+dist/
+.vite/
+.turbo/
+.pnpm-store/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+web/coverage/
 
-# Go workspace artifacts (normally external)
-go.work.sum
+# Cloudflare
+.wrangler/
+.dev.vars
+.dev.vars.*
+wrangler.local.*
+*.d1
+*.sqlite
+*.sqlite-*
+.local-state/
+backend/node_modules/
+backend/.wrangler/
 
-# Secrets
-.env
-.env.*
-!.env.example
+# Tests y outputs temporales
+/tmp/
+temp/
+*.tmp
+*.log
+test-results/
+playwright-report/
+screenshots/
 
-# Engram local database/runtime artifacts.
-# Do not ignore sanitized exports intentionally produced by `engram sync`.
+# Reportes de análisis privados (outputs del CLI)
+territor-*.json
+sg_out_*.json
+stackgenome-report-*.json
+private-validation/
+
+# Engram — memoria local auxiliar (no publicar)
 .engram/*.db
 .engram/*.db-*
 .engram/*.sqlite
 .engram/*.sqlite-*
-backend/node_modules/
-backend/.wrangler/
+# El README de engram tampoco debe rastrearse
+.engram/
+
+# macOS extended attributes
+*.xattr
+
+# Coverage HTML
+coverage/
+htmlcov/
+.coverage
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Rust
+/target/
+
+# Java/Kotlin
+*.class
+*.jar
+.gradle/
