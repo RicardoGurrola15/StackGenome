@@ -89,7 +89,7 @@ export default function StackGraph({ nodes, edges }: { nodes: NodeDTO[], edges: 
 
     // Nodes
     const node = g.append('g')
-      .selectAll('g')
+      .selectAll<SVGGElement, GraphNode>('g')
       .data(graphNodes)
       .join('g')
       .call(d3Drag.drag<SVGGElement, GraphNode>()
