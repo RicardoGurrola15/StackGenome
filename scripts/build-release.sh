@@ -15,14 +15,14 @@ cd "$(dirname "$0")/.."
 rm -rf "$DIST_DIR"
 mkdir -p "$DIST_DIR"
 
-# Version to embed
-VERSION=$(grep -E '^\s+Version\s+=' internal/cli/version.go | awk -F '"' '{print $2}')
+# Version to embed: prefer the current git tag, fallback to short SHA
+VERSION=$(git describe --tags --exact-match 2>/dev/null || echo "")
 if [ -z "$VERSION" ]; then
-    VERSION="unknown"
+    VERSION="dev-$(git rev-parse --short HEAD)"
 fi
-echo "Version detected: $VERSION"
+echo "Version: $VERSION"
 
-LDFLAGS="-s -w"
+LDFLAGS="-s -w -X stackgenome/internal/cli.Version=${VERSION}"
 
 # Build matrix
 declare -a os_archs=(

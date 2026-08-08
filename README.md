@@ -1,82 +1,143 @@
 # StackGenome
 
-**StackGenome** es un analizador universal y local-first de proyectos de software. Construye un grafo técnico normalizado del proyecto y lo utiliza para recomendar herramientas, paquetes, repositorios, plugins, frameworks e implementaciones compatibles, mantenidos y seguros.
+**StackGenome** analyzes software projects and builds a normalized technology graph. It identifies languages, dependencies, tools, platforms, and infrastructure — then recommends relevant, well-maintained tools your project doesn't yet use.
 
-## Estado
+> **Status: Public Alpha (v0.2.0-alpha.1)**
+> The core CLI and analysis engine are stable for evaluation. Expect rough edges in output formatting and catalog coverage. Not recommended for production automation yet.
 
-- Nombre aprobado: **StackGenome**
-- Etapa actual: **Public Alpha / Pre-Release (Fase 21)**
-- Producto inicial: **CLI multiplataforma**
-- Lenguaje del CLI: **Go**
-- Backend: **Cloudflare Workers + D1**
-- Privacidad predeterminada: **análisis local y envío exclusivo de metadatos autorizados (--remote opt-in)**
+---
 
-## 🚀 Uso Rápido (Alpha)
+## What it does
 
-Puedes descargar los binarios pre-compilados (para macOS, Linux o Windows) desde los Releases.
+```
+📁 Your project
+   ↓
+🔬 StackGenome CLI (static analysis only — no code execution)
+   ↓
+🧬 ProjectGraph (languages, dependencies, tools, platforms, infra)
+   ↓
+✨ Recommendations from embedded catalog (offline by default)
+```
+
+StackGenome reads manifest files and configuration files — it does **not** execute your code, install dependencies, or modify your project in any way.
+
+---
+
+## Quick Start
+
+### Install
+
+Download the binary for your platform from [Releases](https://github.com/RicardoGurrola15/StackGenome/releases):
+
+| Platform | File |
+| :--- | :--- |
+| macOS (Apple Silicon) | `stackgenome_darwin_arm64` |
+| macOS (Intel) | `stackgenome_darwin_amd64` |
+| Linux x86-64 | `stackgenome_linux_amd64` |
+| Linux ARM64 | `stackgenome_linux_arm64` |
+| Windows x86-64 | `stackgenome_windows_amd64.exe` |
 
 ```bash
-# Analiza el directorio actual
+# macOS / Linux
+chmod +x stackgenome_darwin_arm64
+mv stackgenome_darwin_arm64 /usr/local/bin/stackgenome
+```
+
+Verify the checksum from `checksums.txt` before running any downloaded binary.
+
+### Usage
+
+```bash
+# Analyze the current directory
 stackgenome analyze .
 
-# Analiza y obtén recomendaciones de herramientas usando el catálogo offline
-stackgenome analyze --recommend .
+# Analyze a specific project
+stackgenome analyze /path/to/your/project
 
-# Analiza y consulta la nube (Cloudflare) para recomendaciones actualizadas (con anonimización forzada)
-stackgenome analyze --remote .
+# Get tool recommendations (offline, no network required)
+stackgenome analyze -recommend /path/to/your/project
+
+# Export full graph as JSON
+stackgenome analyze -json . > report.json
+
+# Check version
+stackgenome version
 ```
 
-## 🔒 Privacidad Extrema
+---
 
-StackGenome se construyó con la premisa de "Zero-Telemetry".
-- El análisis local y el catálogo embebido funcionan sin conexión. Las recomendaciones remotas son opcionales y requieren conexión explícita.
-- No extrae código fuente; solo lee manifiestos (ej: `package.json`, `go.mod`, etc.).
-- Cuando usas la bandera `--remote`, el sistema envía a Cloudflare únicamente la topología básica de tu stack. El Fingerprint utiliza una política *metadata-only* y las pruebas realizadas no detectaron exposición de los campos sensibles prohibidos evaluados.
+## Supported Ecosystems
 
-## ⚠️ Limitaciones Conocidas (Alpha)
+Analysis depth varies by ecosystem:
 
-Al ser un release Alpha, existen ciertas limitaciones temporales:
-1. **Catálogo remoto limitado**: El backend en Cloudflare (D1) contiene actualmente una lista curada de herramientas. Se ampliará.
-2. **Rate Limits Remotos**: Si usas `--remote`, estás sujeto a los límites del plan Free de Cloudflare Workers (aprox 100K requests por día globales).
-3. **Lenguajes Soportados**: StackGenome soporta en profundidad Go, Node.js (JS/TS), Python, Rust, Java/JVM, .NET, Swift, PHP, Ruby y C/C++. Otros ecosistemas podrían ser identificados genéricamente, pero sin extracción profunda de paquetes.
-4. **Symlink Depth**: El `SafeWalker` está configurado por seguridad para detenerse tras ciertos niveles de recursión o si detecta bucles.
+| Ecosystem | Language Detection | Dependency Extraction | Lock File Resolution |
+| :--- | :---: | :---: | :---: |
+| Go | ✅ | ✅ (`go.mod`, `go.work`) | ✅ |
+| Node.js / TypeScript | ✅ | ✅ (`package.json`) | ✅ (`package-lock.json`) |
+| Python | ✅ | ✅ (`requirements.txt`, `pyproject.toml`) | — |
+| Rust | ✅ | ✅ (`Cargo.toml`) | ✅ (`Cargo.lock`) |
+| Dart / Flutter | ✅ | ✅ (`pubspec.yaml`) | ✅ (`pubspec.lock`) |
+| Java / JVM | ✅ | Partial | — |
+| Swift / Objective-C | ✅ | — | — |
+| C / C++ | Detected | — | — |
 
-## Comunidad
+Projects using multiple ecosystems are fully supported.
 
-- [Guía de Contribución](CONTRIBUTING.md)
-- [Política de Seguridad](SECURITY.md)
-- Licencia: [MIT](LICENSE)
+---
 
-## Ruta local prevista
+## Privacy
 
-```text
-/Volumes/intento1/Repos/StackGenome
-```
+StackGenome is built **local-first**:
 
-La partición debe estar montada antes de instalar herramientas o trabajar en el proyecto. Los scripts se niegan a continuar si `/Volumes/intento1` no está disponible, evitando que cachés o SDK se escriban accidentalmente en la partición principal.
+- All analysis runs on your machine.
+- No code, secrets, or file contents are read — only manifest and configuration files.
+- The local catalog (`-recommend`) works entirely offline; no network calls are made.
+- The optional `-remote` flag sends only a sanitized metadata fingerprint (no paths, versions, or credentials) to the Cloudflare API for updated recommendations. This requires your explicit opt-in.
 
-## Inicio rápido para agentes
+The privacy model has been validated against a set of known sensitive fields. This is not a security guarantee for all possible inputs.
 
-1. Leer `AGENTS.md`.
-2. Leer `docs/00_INDEX.md`.
-3. Leer `.project/CURRENT_PHASE.md`.
-4. No implementar fases posteriores.
-5. Ejecutar únicamente el trabajo autorizado.
-6. Probar, documentar y detenerse para solicitar autorización.
+---
 
-El primer prompt se encuentra en [`START_PROMPT.md`](START_PROMPT.md).
+## Limitations (Alpha)
 
-## Inicio rápido para el entorno
+- **Catalog size**: ~27 curated tools. Ecosystems like iOS Native, Android Native, and DevOps-specific tooling have limited recommendations.
+- **No runtime analysis**: StackGenome only reads static files. It cannot detect dynamically loaded dependencies.
+- **Windows ARM64**: Not currently included in release binaries.
+- **Determinism**: Results are deterministic for identical CLI version, catalog, and input files. Behavior may change between releases.
 
-```bash
-cd /Volumes/intento1/Repos/StackGenome
-source scripts/activate-env.sh
-./scripts/bootstrap-macos.sh
-./scripts/verify-environment.sh
-```
+---
 
-El script de bootstrap no modifica automáticamente `~/.zshrc`, no instala Homebrew y no mueve configuraciones globales.
+## Web Viewer
 
-## Documentación
+A browser-based graph viewer for `report.json` files is available at:
+> *(URL to be published — Cloudflare Pages deployment in progress)*
 
-Consulta [`docs/00_INDEX.md`](docs/00_INDEX.md) para el orden de lectura y la autoridad de cada documento.
+The viewer runs entirely in your browser. JSON files are never uploaded.
+
+---
+
+## Documentation
+
+| Document | Description |
+| :--- | :--- |
+| [CHANGELOG.md](CHANGELOG.md) | Release history |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
+| [SECURITY.md](SECURITY.md) | Security policy and reporting |
+| [docs/](docs/) | Full technical documentation |
+
+---
+
+## For Developers & Agents
+
+Read in order:
+1. `AGENTS.md`
+2. `docs/00_INDEX.md`
+3. `.project/CURRENT_PHASE.md`
+
+Do not implement phases beyond the currently authorized one.
+
+---
+
+## License
+
+[MIT](LICENSE)

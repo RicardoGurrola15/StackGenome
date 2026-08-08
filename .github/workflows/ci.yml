@@ -44,6 +44,35 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
+    env:
+      # Prevent npm from using any macOS-style /Volumes path for cache
+      npm_config_cache: /tmp/npm-cache
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          # Do not use built-in cache here — we set npm_config_cache manually above
+          # to avoid npm picking up local /Volumes paths from lockfile metadata
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      - name: Type Check
+        run: npx tsc --noEmit
+
+      - name: Run Vitest
+        run: npm test
+
+  test-web:
+    name: Web Build and Type Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./web
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -53,7 +82,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: './backend/package-lock.json'
+          cache-dependency-path: './web/package-lock.json'
 
       - name: Install dependencies
         run: npm ci
@@ -61,5 +90,5 @@ jobs:
       - name: Type Check
         run: npx tsc --noEmit
 
-      - name: Run Vitest
-        run: npm test
+      - name: Build (static export)
+        run: npm run build
