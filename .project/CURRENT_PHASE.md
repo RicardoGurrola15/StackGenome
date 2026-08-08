@@ -1,11 +1,19 @@
-# Phase 20 (COMPLETED)
+# Phase 21A — Pre-Release Consistency Audit (COMPLETED)
 
-This phase performed a comprehensive remediation and end-to-end validation against the Territor pilot project.
-All findings from Phase 19 (F-001 through F-007) have been addressed.
+## Summary
+Comprehensive audit performed prior to Public Alpha release.
 
-## Achievements
-- Complete Git index hygiene (.engram removed).
-- Complete analyzer determinism (Evidences sorting, platform deduplication deterministic sorting).
-- Complete catalog expansion for Flutter/Dart.
-- Tie-breaking mechanism for PrimaryLanguage using evidence count.
-- Deterministic 3-pass pilot run on Territor yields identical JSON SHAs.
+### Completed
+- [x] CI/CD Reality Check (docs/audits/CI_CD_REALITY_CHECK_2026-08.md)
+- [x] Absolute language corrected in README.md ("100% offline" → accurate description)
+- [x] Scorer engine fixed: requires_context gate prevents Dart Frog from appearing in pure mobile Flutter projects
+- [x] Test cases A-E added for scorer context validation (scorer_context_test.go)
+- [x] All tests passing: go test -race ./... ✅
+- [x] Cross-platform builds verified locally: darwin/arm64, darwin/amd64, linux/amd64, linux/arm64, windows/amd64
+- [x] Catalog audit (docs/audits/CATALOG_ALPHA_READINESS_2026-08.md): 24/27 VALID
+- [x] Smoke test document (docs/testing/PUBLIC_ALPHA_SMOKE_TEST.md)
+- [x] ADR-0010: Cloudflare Pages selected for web hosting
+- [x] STATE.md updated with verified statuses
+- [x] Version proposed: v0.2.0-alpha.1
+
+## Next Phase: 21B — CLI Public UX

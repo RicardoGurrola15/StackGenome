@@ -969,6 +969,7 @@
       "id": "tool:dart_frog",
       "name": "Dart Frog",
       "description": "Framework r\u00e1pido y minimalista para construir backends y APIs en Dart.",
+      "category": "backend",
       "tags": [
         "backend",
         "api",
@@ -983,6 +984,9 @@
       },
       "ecosystem": [
         "dart"
+      ],
+      "requires_context": [
+        "has_backend"
       ],
       "url": "https://dartfrog.vgv.dev"
     },

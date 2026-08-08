@@ -12,6 +12,9 @@ type ProjectContext struct {
 	Infra      map[string]bool
 	Frameworks map[string]bool
 	NodeIDs    map[string]bool
+	// Signals are derived boolean signals used for context-gating of entries.
+	// e.g. "has_backend", "has_mobile", "has_firebase", "has_ci", "has_tests".
+	Signals map[string]bool
 	// PrimaryLanguage is the name of the highest-confidence language node.
 	// Used by the scorer to apply the primaryLanguageBoost.
 	PrimaryLanguage string
@@ -24,6 +27,7 @@ func BuildContext(dto *schemav1.ProjectGraphDTO) *ProjectContext {
 		Infra:      make(map[string]bool),
 		Frameworks: make(map[string]bool),
 		NodeIDs:    make(map[string]bool),
+		Signals:    make(map[string]bool),
 	}
 
 	var primaryConf float64
@@ -60,6 +64,27 @@ func BuildContext(dto *schemav1.ProjectGraphDTO) *ProjectContext {
 		}
 	}
 
+	// Derive project-level signals from detected nodes.
+	// has_mobile: project has a mobile platform (android/ios) or dart/flutter
+	if ctx.Languages["dart"] || ctx.Languages["flutter"] ||
+		ctx.Infra["android"] || ctx.Infra["ios"] {
+		ctx.Signals["has_mobile"] = true
+	}
+	// has_backend: project has a server-side language / infra node
+	if ctx.Languages["go"] || ctx.Languages["python"] || ctx.Languages["ruby"] ||
+		ctx.Languages["php"] || ctx.Languages["java"] || ctx.Languages["node.js"] ||
+		ctx.Languages["node"] || ctx.Languages[".net"] || ctx.Languages["dotnet"] ||
+		ctx.Infra["docker"] || ctx.Infra["kubernetes"] {
+		ctx.Signals["has_backend"] = true
+	}
+	// has_firebase: firebase infra node is present
+	for id := range ctx.NodeIDs {
+		if strings.Contains(id, "firebase") {
+			ctx.Signals["has_firebase"] = true
+			break
+		}
+	}
+
 	return ctx
 }
 
@@ -77,6 +102,14 @@ func Filter(entries []Entry, ctx *ProjectContext) []Entry {
 }
 
 func entryIsRelevant(e Entry, ctx *ProjectContext) bool {
+	// RequiresContext gate: ALL listed signals must be present.
+	// If any required signal is absent, skip this entry entirely.
+	for _, sig := range e.RequiresContext {
+		if !ctx.Signals[sig] {
+			return false
+		}
+	}
+
 	// If the entry targets nothing specific, it's universally relevant
 	if len(e.Ecosystem) == 0 && len(e.Targets.Infra) == 0 && len(e.Targets.Frameworks) == 0 {
 		return true

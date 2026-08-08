@@ -5,7 +5,7 @@
 ## Estado
 
 - Nombre aprobado: **StackGenome**
-- Etapa actual: **Alpha (Fase 15)**
+- Etapa actual: **Public Alpha / Pre-Release (Fase 21)**
 - Producto inicial: **CLI multiplataforma**
 - Lenguaje del CLI: **Go**
 - Backend: **Cloudflare Workers + D1**
@@ -29,9 +29,9 @@ stackgenome analyze --remote .
 ## 🔒 Privacidad Extrema
 
 StackGenome se construyó con la premisa de "Zero-Telemetry".
-- Funciona 100% **offline** por defecto.
+- El análisis local y el catálogo embebido funcionan sin conexión. Las recomendaciones remotas son opcionales y requieren conexión explícita.
 - No extrae código fuente; solo lee manifiestos (ej: `package.json`, `go.mod`, etc.).
-- Cuando usas la bandera `--remote`, **anonimiza automáticamente** todos los payloads. Remueve versiones exactas, elimina evidencias de archivos locales y envía a Cloudflare únicamente la topología básica de tu stack.
+- Cuando usas la bandera `--remote`, el sistema envía a Cloudflare únicamente la topología básica de tu stack. El Fingerprint utiliza una política *metadata-only* y las pruebas realizadas no detectaron exposición de los campos sensibles prohibidos evaluados.
 
 ## ⚠️ Limitaciones Conocidas (Alpha)
 
